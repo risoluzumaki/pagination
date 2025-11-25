@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+
+.app-header { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding: 1rem 0 }
+.app-header nav { display:flex; gap: 12px }
+.app-header a { color: #0b5fff; text-decoration:none; padding: 6px 10px; border-radius:6px }
+.app-header a:hover { background: rgba(11,95,255,0.08) }
+
+main{ padding-top: 1rem }

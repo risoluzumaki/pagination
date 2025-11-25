@@ -1,6 +1,6 @@
 # Vanilla client — pagination demo
 
-This is a tiny demo client that pulls paginated contact data from the server and shows a small pagination UI.
+This is a tiny demo client that pulls paginated contact data from the server and shows a small pagination UI. The client now uses the server pagination metadata (total, totalPages) so it can display accurate page information and allow jumping directly to a page.
 
 API used:
 - GET http://localhost:3000/api/v1/contacts?page={page}&limit={limit}
@@ -8,7 +8,8 @@ API used:
 Features:
 - Previous / Next
 - Per-page selector (5 / 10 / 20)
-- Simple contact list (id, name, email, phone)
+- Jump-to-page input + Go button
+- Accurate page information using server metadata: total and totalPages
 
 How to run (local dev):
 

@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Routes, Route, Link } from 'react-router'
 import './App.css'
+import Contacts from './pages/Contacts'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function Home() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div style={{padding: 20}}>
+      <h2>Welcome</h2>
+      <p>This project contains a demo of server-side pagination. Open the <Link to="/contacts">Contacts</Link> page to try pagination with URL search params.</p>
+    </div>
+  )
+}
+
+function App(){
+  return (
+    <div>
+      <header className="app-header">
+        <h1>Pagination demo — React client</h1>
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/contacts">Contacts</Link>
+        </nav>
+      </header>
+
+      <main>
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/contacts" element={<Contacts/>} />
+        </Routes>
+      </main>
+    </div>
   )
 }
 

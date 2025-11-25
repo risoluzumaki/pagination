@@ -97,6 +97,10 @@ header { margin-bottom: 1rem }
 .controls label { font-size: .95rem }
 .pager { display:flex; align-items:center; gap: .75rem }
 
+.pager .goto { display:flex; gap: .5rem; align-items:center }
+.pager input[type="number"]{ width:70px; padding:.4rem .5rem; border-radius:6px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); color:inherit }
+.pager button#gotoBtn{ padding:.45rem .6rem; border-radius:6px }
+
 #contactsList { list-style:none; padding:0; margin: 0.5rem 0 }
 .contacts li.contact{
   display:flex; justify-content:space-between; gap: 1rem; align-items:center;

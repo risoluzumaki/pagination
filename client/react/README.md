@@ -14,3 +14,15 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Pagination demo (React)
+
+This client now contains a small pagination demo that uses React Router and URL search params for page/limit. The Contacts page reads/writes `page` and `limit` in the query string — for example:
+
+```
+http://localhost:5173/contacts?page=2&limit=10
+```
+
+The page fetches `/api/v1/contacts?page=&limit=` from the server and consumes the metadata (`total`, `totalPages`) so the pager is accurate.
+
+Before running the dev server make sure to run `npm install` inside `client/react` so `react-router-dom` and other dependencies are installed.

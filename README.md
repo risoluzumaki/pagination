@@ -73,6 +73,6 @@ Contoh menambahkan CORS di server (quick):
 
 ## API (singkat)
 
-- GET /api/v1/contacts?page={number}&limit={number}
 	- Response: array of contact objects
 	- Contact: { id, name, email, phone }
+Note: Server now returns pagination metadata: total (total number of contacts) and totalPages. Client can rely on these fields for accurate paging UI.

@@ -15,4 +15,14 @@ export default class PgRawContactRepository implements ContactRepository {
 
     return result.rows;
   }
+
+  async getTotallContacts(): Promise<number> {
+    const result = await this.db.query(
+      `SELECT COUNT(*) FROM contacts`
+    );
+
+    const total = parseInt(result.rows[0].count);
+
+    return total;
+  }
 }

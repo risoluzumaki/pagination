@@ -27,7 +27,11 @@ const renderApp = () => {
         </label>
         <div class="pager">
           <button id="prevBtn" disabled>&larr; Previous</button>
-          <span id="pageInfo">Page <strong id="pageNumber">1</strong></span>
+          <span id="pageInfo">Page <strong id="pageNumber">1</strong> of <strong id="totalPages">?</strong> — total <span id="totalCount">0</span></span>
+          <div class="goto">
+            <input id="gotoPageInput" type="number" min="1" placeholder="page #" />
+            <button id="gotoBtn">Go</button>
+          </div>
           <button id="nextBtn">Next &rarr;</button>
         </div>
       </section>
@@ -51,6 +55,8 @@ let state = {
   limit: 10,
   loading: false,
   lastResponseCount: 0,
+  total: 0,
+  totalPages: 0
 }
 
 // elements
@@ -70,7 +76,11 @@ async function fetchContacts(page, limit){
     const url = `${API_BASE}?page=${page}&limit=${limit}`
     const r = await fetch(url)
     if (!r.ok) throw new Error(`HTTP ${r.status}`)
-    const items = await r.json()
+    const payload = await r.json()
+    // expected payload: { page, limit, total, totalPages, data }
+    state.total = payload.total ?? 0
+    state.totalPages = payload.totalPages ?? 0
+    const items = payload.data ?? []
     state.lastResponseCount = Array.isArray(items) ? items.length : 0
     return items
   } catch (err){
@@ -123,9 +133,11 @@ function updateLoading(){
 
 function updatePager(){
   pageNumber().textContent = state.page
+  document.querySelector('#totalCount').textContent = state.total
+  document.querySelector('#totalPages').textContent = state.totalPages || '?'
   prevBtn().disabled = state.page <= 1 || state.loading
-  // Disable next if last response count is less than limit (no more items)
-  nextBtn().disabled = state.loading || state.lastResponseCount < state.limit
+  // Disable next if we are on the last page (when we know totalPages)
+  nextBtn().disabled = state.loading || (state.totalPages > 0 ? (state.page >= state.totalPages) : state.lastResponseCount < state.limit)
 }
 
 async function loadAndRender(){
@@ -144,9 +156,20 @@ document.addEventListener('click', (e) => {
     }
   }
   if (e.target === nextBtn()){
-    // only advance if last response count equals limit (likely more pages)
-    if (state.lastResponseCount >= state.limit){
+    // only advance if last response count equals limit or if we are not already on last page
+    if (state.totalPages > 0 ? (state.page < state.totalPages) : (state.lastResponseCount >= state.limit)){
       state.page += 1
+      loadAndRender()
+    }
+  }
+})
+
+// jump-to page
+document.addEventListener('click', (e) => {
+  if (e.target && e.target.id === 'gotoBtn'){
+    const val = parseInt(document.querySelector('#gotoPageInput').value)
+    if (!isNaN(val) && val >= 1 && (state.totalPages === 0 || val <= state.totalPages)){
+      state.page = val
       loadAndRender()
     }
   }

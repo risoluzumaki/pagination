@@ -3,12 +3,22 @@ import ContactService from "./contact.service";
 
 export default class ContactController {
   constructor(private contactService: ContactService) {}
+
   async getAllContacts(req: Request, res: Response, next: NextFunction){
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
+
     try {
       const contacts = await this.contactService.getAllContacts(page, limit);
-      res.json(contacts);
+
+      res.json({
+        page,
+        limit,
+        total: contacts.total,
+        totalPages: Math.ceil(contacts.total / limit),
+        data: contacts.data
+      });
+
     } catch (error) {
       next(error);
     }
